@@ -32,6 +32,39 @@
         </div>
     </div>
 </div>
+
+{{-- Modal para ver una entrada --}}
+<div class="modal fade" id="modalVerEntrada" tabindex="-1" aria-labelledby="modalVerEntradaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalVerEntradaLabel">Acerca del post</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <h6 class="text-muted"><strong>Título</strong></h6>
+                    <p id="verTituloPost" class="text-secondary"></p>
+                </div>
+                <div class="mb-3">
+                    <h6 class="text-muted"><strong>Contenido</strong></h6>
+                    <p id="verContenidoPost" class="text-secondary"></p>
+                </div>
+                <div class="mb-3">
+                    <h6 class="text-muted"><strong>Autor</strong></h6>
+                    <p id="verAutorPost" class="text-secondary"></p>
+                </div>
+                <div class="mb-3">
+                    <h6 class="text-muted"><strong>Fecha de publicación</strong></h6>
+                    <p id="verFechaPost" class="text-secondary"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('js')
@@ -117,6 +150,27 @@
                             $('#mensaje').html(response.mensaje +' '+response.contador );
                         }
                     })
+                }
+            });
+        });
+
+        // Evento para mostrar una entrada
+        $(document).on('click', '.verPost', function (e) {
+            e.preventDefault();
+
+            // Obteniendo id del post
+            let postId = $(this).val();
+
+            $('#modalVerEntrada').modal('show');
+
+            $.ajax({
+                type: "GET",
+                url: "/api/posts/"+postId,
+                success: function (response) {
+                    $('#verTituloPost').html(response.post.titulo);
+                    $('#verContenidoPost').html(response.post.contenido);
+                    $('#verAutorPost').html(response.post.user.name);
+                    $('#verFechaPost').html(new Date(response.post.created_at));
                 }
             });
         });

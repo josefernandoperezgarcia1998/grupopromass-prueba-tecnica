@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<!-- Modal para crear nueva entrada-->
+{{-- Modal para crear nueva entrada --}}
 <div class="modal fade" id="modalCrearEntrada" tabindex="-1" aria-labelledby="modalCrearEntradaLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -46,7 +46,7 @@
     </div>
 </div>
 
-<!-- Modal para ver una entrada-->
+{{-- Modal para ver una entrada --}}
 <div class="modal fade" id="modalVerEntrada" tabindex="-1" aria-labelledby="modalVerEntradaLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
