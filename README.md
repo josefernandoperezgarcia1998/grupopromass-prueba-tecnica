@@ -29,3 +29,14 @@ Aplicación web con las funcionalidades de:
  - Una vez teniendo la base de datos se procederá a ejecutar en la terminal dentro del proyecto el siguiente comando "php artisan migrate --seed" para cargar las migraciones y seedeers en la base de datos; se crearán usuarios y posts de manera aleatoria.
  - Ya con la base de datos lista y cargada con información, se procede a ejecutar el comando "php artisan serve" para poder correr el servidor local y hacer uso del aplicativo.
  -Laravel ofrecerá una URL local para esto, por lo general es "http://127.0.0.1:8000/", con esa dirección se puede acceder desde el navegador.
+
+## Comentarios
+
+- Los endpoint del servicio que ofrece la API son con métodos GET/POST. (Archivo routes/api.php).
+- Listado de post: (GET) "/api/listado-posts".
+- Dar de alta un post: (POST) "/api/posts".
+- Mostrar detalle de un post: (GET) "/api/posts/"+postId".
+- Búscador por filtro: (GET) "/api/buscador-post".
+- Login: (POST) "/api/login".
+- Registrar (POST) "/api/registrar".
+- La API es consumida dentro del mismo proyecto por medio de la librería JQuery con la técnica AJAX.
