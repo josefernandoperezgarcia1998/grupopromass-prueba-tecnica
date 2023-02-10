@@ -16,7 +16,7 @@ class PostController extends Controller
         return view('posts.index');
     }
 
-    public function listadoPosts()
+    public function listadoPostsUsuario()
     {
         /*
             Obteniendo todos los post
@@ -63,6 +63,7 @@ class PostController extends Controller
 
     public function show($id)
     {
+        // Obteniendo el post por id con su relación
         $post = Post::with('user')->findOrFail($id);
 
         return response()->json([
@@ -70,4 +71,54 @@ class PostController extends Controller
             'post'   => $post,
         ]);
     }
+
+    public function welcome()
+    {
+        return view('welcome');
+    }
+
+    public function listadoPostGeneral()
+    {
+        $posts = Post::orderBy('created_at', 'DESC')
+                    ->with('user')
+                    ->get();
+
+        return response()->json([
+            'estado' => 200,
+            'posts' => $posts,
+        ]);
+    }
+
+    public function buscadorPost(Request $request)
+    {
+        if($request->ajax()){
+            /* 
+                Se busca en el modelo Post 
+                dado el titulo, contenido ó nombre del autor
+            */
+            $posts = Post::with('user')
+                            ->where('titulo', 'like', '%'. $request->post . '%')
+                            ->orWhere('contenido', 'like', '%'. $request->post. '%')
+                            ->orwhereHas('user',function($q) use ($request){
+                                $q->where( function ($q) use ($request) {
+                                    $q->where('name','like', '%'. $request->post . '%');
+                                });
+                            })
+                            ->get();
+            
+            if(count($posts) > 0){
+                $mensaje = 'Se han encontrado los siguientes registros:';
+            } else {
+                $mensaje = 'Sin registros';
+            }
+        }
+        
+        return response()->json([
+            'estado'   => 200,
+            'mensaje'  => $mensaje,
+            'posts'    => $posts,
+            'contador' => $posts->count(),
+        ]);
+    }
+
 }
