@@ -16,8 +16,27 @@ class PostController extends Controller
         return view('posts.index');
     }
 
+    public function listadoPosts()
+    {
+        /*
+            Obteniendo todos los post
+            de forma descendiente 
+            y con la relación user
+        */
+        $posts = Post::orderBy('created_at', 'DESC')
+                    ->where('user_id', 1)
+                    ->with('user')
+                    ->get();
+
+        return response()->json([
+            'estado' => 200,
+            'posts' => $posts,
+        ]);
+    }
+
     public function store(Request $request)
     {
+        // Validación de entradas
         $validator = Validator::make($request->all(), [
             'titulo'    => 'required|string',
             'contenido' => 'required',
@@ -37,8 +56,18 @@ class PostController extends Controller
         Post::create($datos);
 
         return response()->json([
-            'estado' => 200,
+            'estado'  => 200,
             'mensaje' => 'Post creado correctamente',
+        ]);
+    }
+
+    public function show($id)
+    {
+        $post = Post::with('user')->findOrFail($id);
+
+        return response()->json([
+            'estado' => 200,
+            'post'   => $post,
         ]);
     }
 }

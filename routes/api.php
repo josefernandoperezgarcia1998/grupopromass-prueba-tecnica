@@ -21,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::resource('posts', PostController::class);
+Route::get('listado-posts', [PostController::class, 'listadoPosts']);
