@@ -25,15 +25,12 @@
                         <a class="blog-header-logo text-dark" href="#">Larablog</a>
                     </div>
                     <div class="col-4 d-flex justify-content-end align-items-center">
-                        {{-- @auth --}}
-                            <a class="btn btn-sm btn-outline-secondary" href="/api/posts">Posts</a>
-                            {{-- &nbsp; --}}
-                            {{-- <a class="btn btn-sm btn-outline-danger" href="{{ route('logout') }}">Logout</a> --}}
-                        {{-- @else --}}
-                            {{-- <a class="btn btn-sm btn-outline-secondary" href="{{route('login')}}">Login</a> --}}
-                            {{-- &nbsp; --}}
-                            {{-- <a class="btn btn-sm btn-outline-link" href="{{route('registrar')}}">Registrar</a> --}}
-                        {{-- @endauth --}}
+                        <a class="btn btn-sm btn-outline-secondary verPosts" href="/api/posts">Posts</a>
+                        &nbsp;
+                        <a class="btn btn-sm btn-outline-danger logout cerrarSesion" href="/api/logout">Logout</a>
+                        <a class="btn btn-sm btn-outline-secondary login" href="{{route('login')}}">Login</a>
+                        &nbsp;
+                        <a class="btn btn-sm btn-outline-link registrar" href="{{route('registrar')}}">Registrar</a>
                     </div>
                 </div>
             </header>
@@ -58,6 +55,40 @@
         {{-- JQuery CDN --}}
         <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
         
+        <script>
+            $(document).ready(function () {
+                if(localStorage.getItem("token")){
+                    $('.verPosts').css('display','block');
+                    $('.logout').css('display','block');
+                    $('.login').css('display','none');
+                    $('.registrar').css('display','none');
+                } else {
+                    $('.verPosts').css('display','none');
+                    $('.logout').css('display','none');
+                    $('.login').css('display','block');
+                    $('.registrar').css('display','block');
+                }
+
+                // Evento para cerrar sesión
+                $(document).on('click', '.cerrarSesion', function () {
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/api/logout",
+                        success: function (response) {
+                            localStorage.removeItem("token");
+                            if(response.estado == 200){
+                                if(!alert('Sesión cerrada!')){window.location.reload();}
+                            } else {
+                                alert('Error al cerrar sesión, intente después');
+                            }
+                        }
+                    });
+                });
+            });
+
+        </script>
+
         {{-- JS --}}
         @stack('js')
     </body>

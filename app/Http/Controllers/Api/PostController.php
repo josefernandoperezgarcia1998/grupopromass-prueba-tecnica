@@ -24,7 +24,6 @@ class PostController extends Controller
             y con la relación user
         */
         $posts = Post::orderBy('created_at', 'DESC')
-                    ->where('user_id', 1)
                     ->with('user')
                     ->get();
 
@@ -51,7 +50,25 @@ class PostController extends Controller
         
         $datos['titulo'] = $request->titulo;
         $datos['contenido'] = $request->contenido;
-        $datos['user_id'] = 1;
+
+        // Generando numero al azar
+        $aleatoriosId = array(
+            1   => 1, 
+            2   => 2, 
+            3   => 3,
+            4   => 4,
+            5   => 5,
+            6   => 6,
+            7   => 7,
+            8   => 8,
+            9   => 9,
+            10  => 10,
+        );
+
+        shuffle($aleatoriosId);
+        $user_id = $aleatoriosId[0];
+
+        $datos['user_id'] = $user_id;
 
         Post::create($datos);
 

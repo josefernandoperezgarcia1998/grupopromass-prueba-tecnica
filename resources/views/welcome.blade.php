@@ -71,6 +71,7 @@
             });
         }
 
+        // Evento para filtrar contenido de posts
         $(buscador).click(function() {
             $(buscador).keyup(function(){
                 if($(this).val().length == 0){

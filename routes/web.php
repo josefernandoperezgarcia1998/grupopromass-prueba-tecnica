@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\AutenticarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,3 +16,6 @@ use App\Http\Controllers\Api\PostController;
 */
 
 Route::get('/', [PostController::class, 'welcome']);
+
+Route::get('vista-registro', [AutenticarController::class, 'vistaRegistrar'])->name('registrar');
+Route::get('vista-login', [AutenticarController::class, 'vistaLogin'])->name('login');
